@@ -185,8 +185,9 @@ class SaleReportControllerTest extends SaleReportCommon
     {
         $i = 0;
         $orderMoney = 0;
+        $orderNumber = 3;
         $current = new \DateTime();
-        $arrOrder = $this->createOrderByCustomer(3);
+        $arrOrder = $this->createOrderByCustomer($orderNumber);
         $TaxRule = $this->app['eccube.repository.tax_rule']->getByRule();
         $this->changeOrderDetail($arrOrder);
         $arrSearch = array(
@@ -210,7 +211,7 @@ class SaleReportControllerTest extends SaleReportCommon
         }
 
         $tax = $TaxRule->getTaxRate() / 100;
-        $this->expected = 500 * 30 * (1 + $tax);
+        $this->expected = 500 * $orderNumber * (1 + $tax);
         $this->actual = $orderMoney;
         $this->verify();
     }
