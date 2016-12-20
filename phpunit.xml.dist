@@ -13,9 +13,9 @@
     </testsuites>
 
     <!-- 出力するログファイル    -->
-    <logging>
-        <log type="coverage-clover" target="./reports/coverage.clover"/>
-    </logging>
+    <!--<logging>-->
+        <!--<log type="coverage-clover" target="./reports/coverage.clover"/>-->
+    <!--</logging>-->
 
     <!-- カバーレージのターゲット -->
     <filter>
