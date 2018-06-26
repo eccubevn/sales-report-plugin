@@ -1,8 +1,11 @@
 <?php
+
 /*
- * This file is part of the Sales Report plugin
+ * This file is part of EC-CUBE
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -24,7 +27,7 @@ class SaleReportCommon extends AbstractAdminWebTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->deleteAllRows(array('dtb_order_detail'));
+        $this->deleteAllRows(['dtb_order_detail']);
     }
 
     /**
@@ -36,7 +39,7 @@ class SaleReportCommon extends AbstractAdminWebTestCase
      */
     public function createCustomerByNumber($number = 5)
     {
-        $arrCustomer = array();
+        $arrCustomer = [];
         $current = new \DateTime();
         for ($i = 0; $i < $number; ++$i) {
             $email = 'customer0'.$i.'@mail.com';
@@ -63,7 +66,7 @@ class SaleReportCommon extends AbstractAdminWebTestCase
     {
         $arrCustomer = $this->createCustomerByNumber($number);
         $current = new \DateTime();
-        $arrOrder = array();
+        $arrOrder = [];
         for ($i = 0; $i < count($arrCustomer); ++$i) {
             $Customer = $this->app['eccube.repository.customer']->find($arrCustomer[$i]);
             $Order = $this->createOrder($Customer);

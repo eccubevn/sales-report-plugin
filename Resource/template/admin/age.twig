@@ -8,10 +8,11 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
 #}
 
 {% extends 'SalesReport/Resource/template/admin/index.twig' %}
+{% block sub_title %}年齢別統計{% endblock %}
 
 {% set report_title = '年代別集計' %}
 {% set action = url('admin_plugin_sales_report_age') %}
-{% set menus = ['admin_plugin_sales_report', 'admin_plugin_sales_report_age'] %}
+{% set menus = ['customer', 'admin_plugin_sales_report', 'admin_plugin_sales_report_age'] %}
 
 {% block chart %}
     <script>
@@ -70,68 +71,55 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
 
 {% block table %}
     {% if app.request.method == 'POST' %}
+<div class="card-body">
+    <div class="row">
         {% if rawData is not null %}
-            <div class="row">
-                <div class="box-header">
-                    <button type="button" class="btn btn-default pull-right" id="export-csv">CSVダウンロード</button>
+            <div class="col-12 text-right mb-2">
+                <div class="d-inline-block">
+                    <div class="btn-group d-inline-block" role="group">
+                        <button type="button" class="btn btn-ec-regular" id="export-csv"><i class="fa fa-cloud-download mr-1 text-secondary"></i> CSVダウンロード
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box">
-                        <div class="table_list">
-                            <div class="table-responsive with-border">
-                                <table class="table table-striped" id="age-table">
-                                    <thead>
-                                    <tr>
-                                        <th>年代</th>
-                                        <th>購入件数(件)</th>
-                                        <th>購入合計(円)</th>
-                                        <th>購入平均(円)</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for age, row in rawData %}
-                                        <tr>
-                                            <td>{{ age == 999 ? '未回答' : age~'代' }}</td>
-                                            <td class="text-right">{{ row.time|number_format }}</td>
-                                            <td class="price-format text-right">
-                                                {{ row.total|number_format }}
-                                                <span class="hidden">{{ row.total }}</span>
-                                            </td>
-                                            <td class="price-format text-right">
-                                                {% if row.time > 0 %}
-                                                    {{ (row.total / row.time)|round(2, 'floor')|number_format }}
-                                                {% else %}
-                                                    0
-                                                {% endif %}
-                                                <span class="hidden">
+            <table class="table table-striped" id="age-table">
+                <thead>
+                <tr>
+                    <th class="border-top-0 pt-2 pb-2 text-left">年代</th>
+                    <th class="border-top-0 pt-2 pb-2 text-center">購入件数(件)</th>
+                    <th class="border-top-0 pt-2 pb-2 text-right">購入合計(円)</th>
+                    <th class="border-top-0 pt-2 pb-2 text-right">購入平均(円)</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for age, row in rawData %}
+                    <tr>
+                        <td class="align-middle pl-3">{{ age == 999 ? '未回答' : age~'代' }}</td>
+                        <td class="align-middle text-center pl-3">{{ row.time|number_format }}</td>
+                        <td class="price-format text-right align-middle">
+                            {{ row.total|number_format }}
+                            <span class="hidden">{{ row.total }}</span>
+                        </td>
+                        <td class="price-format text-right align-middle">
+                            {% if row.time > 0 %}
+                                {{ (row.total / row.time)|round(2, 'floor')|number_format }}
+                            {% else %}
+                                0
+                            {% endif %}
+                            <span class="hidden">
                                                     {% if row.time > 0 %}
                                                         {{ (row.total / row.time)|round(2, 'floor') }}
                                                     {% else %}
                                                         0
                                                     {% endif %}
                                                 </span>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div><!-- /.box-body -->
-                    </div><!-- /.box -->
-                </div><!-- /.col -->
-            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         {% else %}
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box">
-                        <div class="box-header with-arrow">
-                            <h3 class="box-title">集計期間にデータがありませんでした。</h3>
-                        </div><!-- /.box-header -->
-                    </div>
-                </div>
-            </div>
+            <h3 class="box-title">集計期間にデータがありませんでした。</h3>
         {% endif %}
     {% endif %}
 {% endblock %}

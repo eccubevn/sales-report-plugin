@@ -1,8 +1,11 @@
 <?php
+
 /*
- * This file is part of the Sales Report plugin
+ * This file is part of EC-CUBE
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -10,7 +13,11 @@
 
 namespace Plugin\SalesReport\Form\Type;
 
+use Eccube\Common\EccubeConfig;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvents;
@@ -25,16 +32,16 @@ class SalesReportType extends AbstractType
     /**
      * @var \Eccube\Application
      */
-    private $app;
+    private $eccubeConfig;
 
     /**
-     * RelatedProductType constructor.
+     * SalesReportType constructor.
      *
-     * @param \Eccube\Application $app
+     * @param EccubeConfig $eccubeConfig
      */
-    public function __construct($app)
+    public function __construct(EccubeConfig $eccubeConfig)
     {
-        $this->app = $app;
+        $this->eccubeConfig = $eccubeConfig;
     }
 
     /**
@@ -45,79 +52,77 @@ class SalesReportType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $app = $this->app;
+        $app = $this->eccubeConfig;
         // 年月の配列定義. 今年±20年
         $yearList = range(date('Y'), date('Y') - 20);
         // 1～12月
         $monthList = range(1, 12);
 
         $builder
-            ->add('term_type', 'hidden', array(
+            ->add('term_type', HiddenType::class, [
                 'required' => false,
-            ))
-            ->add('monthly_year', 'choice', array(
+            ])
+            ->add('monthly_year', ChoiceType::class, [
                 'label' => '年',
                 'required' => true,
                 'choices' => array_combine($yearList, $yearList),
                 'data' => date('Y'),
-            ))
-            ->add('monthly_month', 'choice', array(
+            ])
+            ->add('monthly_month', ChoiceType::class, [
                 'label' => '月',
                 'required' => true,
                 'choices' => array_combine($monthList, $monthList),
                 'data' => date('n'),
-            ))
-            ->add('term_start', 'date', array(
+            ])
+            ->add('term_start', DateType::class, [
                 'label' => '期間集計',
                 'required' => true,
                 'input' => 'datetime',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
-                'empty_value' => array('year' => '----', 'month' => '--', 'day' => '--'),
+//                'empty_value' => ['year' => '----', 'month' => '--', 'day' => '--'],
                 'data' => new \DateTime('first day of this month'),
-            ))
-            ->add('term_end', 'date', array(
+            ])
+            ->add('term_end', DateType::class, [
                 'label' => '期間集計',
                 'required' => true,
                 'input' => 'datetime',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
-                'empty_value' => array('year' => '----', 'month' => '--', 'day' => '--'),
                 'data' => new \DateTime(),
-            ))
-            ->add('unit', 'choice', array(
+            ])
+            ->add('unit', ChoiceType::class, [
                 'label' => '集計単位',
                 'required' => true,
                 'expanded' => true,
                 'multiple' => false,
-                'empty_value' => false,
-                'choices' => array(
+                'choices' => array_flip([
                     'byDay' => '日別',
                     'byMonth' => '月別',
                     'byWeekDay' => '曜日別',
                     'byHour' => '時間別',
-                ),
+                ]),
                 'data' => 'byDay',
-                'constraints' => array(
+                'constraints' => [
                     new Assert\NotBlank(),
-                ),
-            ))
+                ],
+            ])
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($app) {
                 $form = $event->getForm();
                 $data = $form->getData();
                 if ($data['term_type'] === 'monthly') {
                     if (empty($data['monthly_year'])) {
                         $form['monthly_year']->addError(
-                            new FormError($app->trans('plugin.sales_report.type.monthly.error'))
+                            new FormError(trans('plugin.sales_report.type.monthly.error'))
                         );
                     }
                     if (empty($data['monthly_month'])) {
                         $form['monthly_month']->addError(
-                            new FormError($app->trans('plugin.sales_report.type.monthly.error'))
+                            new FormError(trans('plugin.sales_report.type.monthly.error'))
                         );
                     }
                 } elseif ($data['term_type'] === 'term' && (empty($data['term_start']) || empty($data['term_end']))) {
-                    $form['term_start']->addError(new FormError($app->trans('plugin.sales_report.type.term_start.error')));
+                    $form['term_start']->addError(new FormError(trans('plugin.sales_report.type.term_start.error')));
                 }
             })
         ;

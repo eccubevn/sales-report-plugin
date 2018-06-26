@@ -1,8 +1,11 @@
 <?php
+
 /*
- * This file is part of the Sales Report plugin
+ * This file is part of EC-CUBE
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -10,64 +13,83 @@
 
 namespace Plugin\SalesReport\Controller;
 
-use Eccube\Application;
+use Eccube\Controller\AbstractController;
+use Plugin\SalesReport\Form\Type\SalesReportType;
+use Plugin\SalesReport\Service\SalesReportService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class SalesReportController.
  */
-class SalesReportController
+class SalesReportController extends AbstractController
 {
+
+    /** @var SalesReportService */
+    protected $salesReportService;
+
+    /**
+     * SalesReportController constructor.
+     *
+     * @param SalesReportService $salesReportService
+     */
+    public function __construct(SalesReportService $salesReportService)
+    {
+        $this->salesReportService = $salesReportService;
+    }
+
     /**
      * 期間別集計.
      *
-     * @param Application $app
-     * @param Request     $request
+     * @param Request $request
+     * @Route("%eccube_admin_route%/plugin/sales_report/term", name="admin_plugin_sales_report_term")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function term(Application $app, Request $request)
+    public function term(Request $request)
     {
-        return $this->response($app, $request, 'term');
+        return $this->response($request, 'term');
     }
 
     /**
      * 商品別集計.
      *
-     * @param Application $app
      * @param Request     $request
+     * @Route("%eccube_admin_route%/plugin/sales_report/product", name="admin_plugin_sales_report_product")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function product(Application $app, Request $request)
+    public function product(Request $request)
     {
-        return $this->response($app, $request, 'product');
+        return $this->response($request, 'product');
     }
 
     /**
      * 年代別集計.
      *
-     * @param Application $app
      * @param Request     $request
+     * @Route("%eccube_admin_route%/plugin/sales_report/age", name="admin_plugin_sales_report_age")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function age(Application $app, Request $request)
+    public function age(Request $request)
     {
-        return $this->response($app, $request, 'age');
+        return $this->response($request, 'age');
     }
 
     /**
      * 商品CSVの出力.
      *
-     * @param Application $app
      * @param Request     $request
      * @param string      $type
+     * @Route("%eccube_admin_route%/plugin/sales_report/export/{type}", name="admin_plugin_sales_report_export")
+     * @Method("POST")
      *
      * @return StreamedResponse
      */
-    public function export(Application $app, Request $request, $type)
+    public function export(Request $request, $type)
     {
         set_time_limit(0);
         $response = new StreamedResponse();
@@ -75,39 +97,39 @@ class SalesReportController
         if ($session->has('eccube.admin.plugin.sales_report.export')) {
             $searchData = $session->get('eccube.admin.plugin.sales_report.export');
         } else {
-            $searchData = array();
+            $searchData = [];
         }
 
-        $data = array(
+        $data = [
             'graph' => null,
             'raw' => null,
-        );
+        ];
 
         // Query data from database
         if ($searchData) {
             if ($searchData['term_end']) {
                 $searchData['term_end'] = $searchData['term_end']->modify('- 1 day');
             }
-            $data = $app['salesreport.service.sales_report']
+            $data = $this->salesReportService
                 ->setReportType($type)
                 ->setTerm($searchData['term_type'], $searchData)
                 ->getData();
         }
 
-        $response->setCallback(function () use ($data, $app, $request, $type) {
+        $response->setCallback(function () use ($data, $request, $type) {
             //export data by type
             switch ($type) {
                 case 'term':
-                    $app['salesreport.service.sales_report']->exportTermCsv($data['raw'], $app['config']['csv_export_separator'], $app['config']['csv_export_encoding']);
+                    $this->salesReportService->exportTermCsv($data['raw'], $this->eccubeConfig['eccube_csv_export_separator'], $this->eccubeConfig['eccube_csv_export_encoding']);
                     break;
                 case 'product':
-                    $app['salesreport.service.sales_report']->exportProductCsv($data['raw'], $app['config']['csv_export_separator'], $app['config']['csv_export_encoding']);
+                    $this->salesReportService->exportProductCsv($data['raw'], $this->eccubeConfig['eccube_csv_export_separator'], $this->eccubeConfig['eccube_csv_export_encoding']);
                     break;
                 case 'age':
-                    $app['salesreport.service.sales_report']->exportAgeCsv($data['raw'], $app['config']['csv_export_separator'], $app['config']['csv_export_encoding']);
+                    $this->salesReportService->exportAgeCsv($data['raw'], $this->eccubeConfig['eccube_csv_export_separator'], $this->eccubeConfig['eccube_csv_export_encoding']);
                     break;
                 default:
-                    $app['salesreport.service.sales_report']->exportTermCsv($data['raw'], $app['config']['csv_export_separator'], $app['config']['csv_export_encoding']);
+                    $this->salesReportService->exportTermCsv($data['raw'], $this->eccubeConfig['eccube_csv_export_separator'], $this->eccubeConfig['eccube_csv_export_encoding']);
             }
         });
 
@@ -130,7 +152,7 @@ class SalesReportController
         $response->headers->set('Content-Type', 'application/octet-stream;');
         $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
         $response->send();
-        log_info('商品CSV出力ファイル名', array($filename));
+        log_info('商品CSV出力ファイル名', [$filename]);
 
         return $response;
     }
@@ -138,16 +160,15 @@ class SalesReportController
     /**
      * direct by report type(default term).
      *
-     * @param Application $app
      * @param Request     $request
      * @param null        $reportType
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function response(Application $app, Request $request, $reportType = null)
+    private function response(Request $request, $reportType = null)
     {
-        $builder = $app['form.factory']
-            ->createBuilder('sales_report');
+        $builder = $this->formFactory
+            ->createBuilder(SalesReportType::class);
         if (!is_null($reportType) && $reportType !== 'term') {
             $builder->remove('unit');
         }
@@ -155,12 +176,12 @@ class SalesReportController
         $form = $builder->getForm();
         $form->handleRequest($request);
 
-        $data = array(
+        $data = [
             'graph' => null,
             'raw' => null,
-        );
+        ];
 
-        $options = array();
+        $options = [];
 
         if (!is_null($reportType) && $form->isValid()) {
             $session = $request->getSession();
@@ -168,7 +189,8 @@ class SalesReportController
             $searchData['term_type'] = $form->get('term_type')->getData();
             $session->set('eccube.admin.plugin.sales_report.export', $searchData);
             $termType = $form->get('term_type')->getData();
-            $data = $app['salesreport.service.sales_report']
+
+            $data = $this->salesReportService
                 ->setReportType($reportType)
                 ->setTerm($termType, $searchData)
                 ->getData();
@@ -176,17 +198,17 @@ class SalesReportController
         }
 
         $template = is_null($reportType) ? 'term' : $reportType;
-        log_info('SalesReport Plugin : render ', array('template' => $template));
+        log_info('SalesReport Plugin : render ', ['template' => $template]);
 
-        return $app->render(
+        return $this->render(
             'SalesReport/Resource/template/admin/'.$template.'.twig',
-            array(
+            [
                 'form' => $form->createView(),
                 'graphData' => json_encode($data['graph']),
                 'rawData' => $data['raw'],
                 'type' => $reportType,
                 'options' => $options,
-            )
+            ]
         );
     }
 
@@ -200,7 +222,7 @@ class SalesReportController
      */
     private function getRenderOptions($termType, $searchData)
     {
-        $options = array();
+        $options = [];
 
         switch ($termType) {
             case 'term':

@@ -1,8 +1,11 @@
 <?php
+
 /*
- * This file is part of the Sales Report plugin
+ * This file is part of EC-CUBE
  *
- * Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
+ * Copyright(c) LOCKON CO.,LTD. All Rights Reserved.
+ *
+ * http://www.lockon.co.jp/
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,7 +20,7 @@ use Plugin\SalesReport\Form\Type\SalesReportType;
 use Eccube\Common\Constant;
 
 // include log functions (for 3.0.0 - 3.0.11)
-require_once __DIR__.'/../log.php';
+//require_once __DIR__.'/../log.php';
 
 /**
  * Class SalesReportServiceProvider.
@@ -77,29 +80,29 @@ class SalesReportServiceProvider implements ServiceProviderInterface
 
         // サブナビの拡張
         $app['config'] = $app->share($app->extend('config', function ($config) {
-            $nav = array(
+            $nav = [
                 'id' => 'admin_plugin_sales_report',
                 'name' => '売上集計',
                 'has_child' => 'true',
                 'icon' => 'cb-chart',
-                'child' => array(
-                    array(
+                'child' => [
+                    [
                         'id' => 'admin_plugin_sales_report_term',
                         'url' => 'admin_plugin_sales_report_term',
                         'name' => '期間別集計',
-                    ),
-                    array(
+                    ],
+                    [
                         'id' => 'admin_plugin_sales_report_product',
                         'url' => 'admin_plugin_sales_report_product',
                         'name' => '商品別集計',
-                    ),
-                    array(
+                    ],
+                    [
                         'id' => 'admin_plugin_sales_report_age',
                         'url' => 'admin_plugin_sales_report_age',
                         'name' => '年代別集計',
-                    ),
-                ),
-            );
+                    ],
+                ],
+            ];
 
             $config['nav'][] = $nav;
 
