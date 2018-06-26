@@ -1,0 +1,76 @@
+plugin.sales_report.type.monthly.error: 集計月を選択してください。
+plugin.sales_report.type.term_start.error: 集計期間を正しく選択してください。
+plugin.sales_report.label.monthly_year: 年
+plugin.sales_report.label.monthly_month: 月
+plugin.sales_report.label.term_start: 期間集計
+plugin.sales_report.label.term_end: 期間集計
+plugin.sales_report.label.unit: 集計単位
+plugin.sales_report.label.byDay: 日別
+plugin.sales_report.label.byMonth: 月別
+plugin.sales_report.label.byWeekDay: 曜日別
+plugin.sales_report.label.byHour: 時間別
+plugin.sales_report.title: 売上管理
+plugin.sales_report.sub.title.age: 年齢別統計
+plugin.sales_report.sub.title.product: 製品別統計
+plugin.sales_report.sub.title.term: 用語レポート
+plugin.sales_report.report_title: 年代別集計
+plugin.sales_report.csv.download: CSVダウンロード
+plugin.sales_report.age.field.001: 年代
+plugin.sales_report.age.field.002: 購入件数(件)
+plugin.sales_report.age.field.003: 購入合計(円)
+plugin.sales_report.age.field.004: 購入平均(円)
+plugin.sales_report.age.list.001: 未回答
+plugin.sales_report.age.list.002: 代
+plugin.sales_report.list.nodata: 集計期間にデータがありませんでした。
+plugin.sales_report.age.list.001: 年代
+plugin.sales_report.age.list.001: 年代
+plugin.sales_report.money: "購入合計: ¥"
+plugin.sales_report.money.code: "¥"
+plugin.sales_report.index.001: 月度集計
+plugin.sales_report.index.002: 月度で集計
+plugin.sales_report.index.003: 期間集計
+plugin.sales_report.index.004: 期間で集計
+plugin.sales_report.placholder: 年-月-日
+plugin.sales_report.product.report_title: 商品別集計
+plugin.sales_report.product.001: 商品別集計 上位
+plugin.sales_report.product.002: 件
+plugin.sales_report.product.003: 商品コード
+plugin.sales_report.product.004: 商品名
+plugin.sales_report.product.005: 購入件数(件)
+plugin.sales_report.product.006: 数量(個)
+plugin.sales_report.product.007: 金額(円)
+plugin.sales_report.term.report_title: 期間別集計
+plugin.sales_report.term.001: 集計単位
+plugin.sales_report.list.label.001: 期間
+plugin.sales_report.list.label.002: 購入件数
+plugin.sales_report.list.label.003: 男性
+plugin.sales_report.list.label.004: 女性
+plugin.sales_report.list.label.005: 不明
+plugin.sales_report.list.label.006: 男性 (会員)
+plugin.sales_report.list.label.007: 男性 (非会員)
+plugin.sales_report.list.label.008: 女性 (会員)
+plugin.sales_report.list.label.009: 女性 (非会員)
+plugin.sales_report.list.label.010: 購入合計(円)
+plugin.sales_report.list.label.011: 購入平均(円)
+plugin.sales_report.list.label.012: 購入合計
+plugin.sales_report.productCsvHeader.001: 商品コード
+plugin.sales_report.productCsvHeader.002: 商品名
+plugin.sales_report.productCsvHeader.003: 購入件数（件）
+plugin.sales_report.productCsvHeader.004: 数量（個）
+plugin.sales_report.productCsvHeader.005: 金額（円）
+plugin.sales_report.termCsvHeader.001: 期間
+plugin.sales_report.termCsvHeader.002: 購入件数
+plugin.sales_report.termCsvHeader.003: 男性
+plugin.sales_report.termCsvHeader.004: 女性
+plugin.sales_report.termCsvHeader.005: 不明
+plugin.sales_report.termCsvHeader.006: 男性(会員)
+plugin.sales_report.termCsvHeader.007: 男性(非会員)
+plugin.sales_report.termCsvHeader.008: 女性(会員)
+plugin.sales_report.termCsvHeader.009: 女性(非会員)
+plugin.sales_report.termCsvHeader.010: 購入合計(円)
+plugin.sales_report.termCsvHeader.011: 購入平均(円)
+plugin.sales_report.ageCsvHeader.001: 年代
+plugin.sales_report.ageCsvHeader.002: 購入件数(件)
+plugin.sales_report.ageCsvHeader.003: 購入合計(円)
+plugin.sales_report.ageCsvHeader.004: 購入平均(円)
+plugin.sales_report.generation: 代

@@ -45,10 +45,10 @@ class SalesReportType extends AbstractType
     }
 
     /**
-     * buildForm Sale Report.
+     * BuildForm Sale Report.
      *
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -63,28 +63,27 @@ class SalesReportType extends AbstractType
                 'required' => false,
             ])
             ->add('monthly_year', ChoiceType::class, [
-                'label' => '年',
+                'label' => 'plugin.sales_report.label.monthly_year',
                 'required' => true,
                 'choices' => array_combine($yearList, $yearList),
                 'data' => date('Y'),
             ])
             ->add('monthly_month', ChoiceType::class, [
-                'label' => '月',
+                'label' => 'plugin.sales_report.label.monthly_month',
                 'required' => true,
                 'choices' => array_combine($monthList, $monthList),
                 'data' => date('n'),
             ])
             ->add('term_start', DateType::class, [
-                'label' => '期間集計',
+                'label' => 'plugin.sales_report.label.term_start',
                 'required' => true,
                 'input' => 'datetime',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
-//                'empty_value' => ['year' => '----', 'month' => '--', 'day' => '--'],
                 'data' => new \DateTime('first day of this month'),
             ])
             ->add('term_end', DateType::class, [
-                'label' => '期間集計',
+                'label' => 'plugin.sales_report.label.term_end',
                 'required' => true,
                 'input' => 'datetime',
                 'widget' => 'single_text',
@@ -92,15 +91,15 @@ class SalesReportType extends AbstractType
                 'data' => new \DateTime(),
             ])
             ->add('unit', ChoiceType::class, [
-                'label' => '集計単位',
+                'label' => 'plugin.sales_report.label.unit',
                 'required' => true,
                 'expanded' => true,
                 'multiple' => false,
                 'choices' => array_flip([
-                    'byDay' => '日別',
-                    'byMonth' => '月別',
-                    'byWeekDay' => '曜日別',
-                    'byHour' => '時間別',
+                    'byDay' => 'plugin.sales_report.label.byDay',
+                    'byMonth' => 'plugin.sales_report.label.byMonth',
+                    'byWeekDay' => 'plugin.sales_report.label.byWeekDay',
+                    'byHour' => 'plugin.sales_report.label.byHour',
                 ]),
                 'data' => 'byDay',
                 'constraints' => [

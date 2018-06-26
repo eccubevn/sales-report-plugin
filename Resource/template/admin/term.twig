@@ -8,15 +8,18 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
 #}
 
 {% extends 'SalesReport/Resource/template/admin/index.twig' %}
-{% block sub_title %}用語レポート{% endblock %}
+{% block sub_title %}{{ 'plugin.sales_report.sub.title.term'|trans }}{% endblock %}
 
-{% set report_title = '期間別集計' %}
+{% set report_title = 'plugin.sales_report.term.report_title'|trans %}
 {% set action = url('admin_plugin_sales_report_term') %}
 {% set menus = ['customer', 'admin_plugin_sales_report', 'admin_plugin_sales_report_term'] %}
 
 {% block stylesheet %}
     <style>
-        #sales_report_unit > div{ float: left; padding-right: 15px}
+        #sales_report_unit > div {
+            float: left;
+            padding-right: 15px
+        }
     </style>
 {% endblock stylesheet %}
 
@@ -24,65 +27,65 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
     <script>
         var graphData = {{ graphData|raw }};
 
-        window.onload = function() {
+        window.onload = function () {
             //create line chart
-            if(graphData != null) {
+            if (graphData != null) {
                 var dataSet = graphData.datasets;
                 graphData.datasets = [dataSet];
                 {% if options.unit is defined and (options.unit == 'byWeekDay' or options.unit == 'byHour') %}
-                    var config = {
-                        type: 'bar',
-                        data: graphData,
-                        options: {
-                            responsive: true,
-                            tooltips: {
-                                callbacks: {
-                                    label : function tooltipsRender(tooltipItem, graphData) {
-                                        var index = tooltipItem.index;
-                                        var tooltipData = graphData.datasets[0].data[index];
-                                        var tooltipLabel = graphData.labels[index];
-                                        return '購入合計 : ¥' + moneyFormat(tooltipData);
+                var config = {
+                    type: 'bar',
+                    data: graphData,
+                    options: {
+                        responsive: true,
+                        tooltips: {
+                            callbacks: {
+                                label: function tooltipsRender(tooltipItem, graphData) {
+                                    var index = tooltipItem.index;
+                                    var tooltipData = graphData.datasets[0].data[index];
+                                    var tooltipLabel = graphData.labels[index];
+                                    return '{{ 'plugin.sales_report.money'|trans }}' + moneyFormat(tooltipData);
+                                }
+                            }
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    callback: function (value) {
+                                        return Math.round(value).toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,');
                                     }
                                 }
-                            },
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        callback: function(value){
-                                            return Math.round(value).toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,');
-                                        }
-                                    }
-                                }]
-                            }
+                            }]
                         }
-                    };
+                    }
+                };
                 {% else %}
-                    var config = {
-                        type: 'line',
-                        data: graphData,
-                        options: {
-                            responsive: true,
-                            tooltips: {
-                                callbacks: {
-                                    label : function tooltipsRender(tooltipItem, graphData) {
-                                        var index = tooltipItem.index;
-                                        var tooltipData = graphData.datasets[0].data[index];
-                                        var tooltipLabel = graphData.labels[index];
-                                        return '購入合計 : ¥' + moneyFormat(tooltipData);
+                var config = {
+                    type: 'line',
+                    data: graphData,
+                    options: {
+                        responsive: true,
+                        tooltips: {
+                            callbacks: {
+                                label: function tooltipsRender(tooltipItem, graphData) {
+                                    var index = tooltipItem.index;
+                                    var tooltipData = graphData.datasets[0].data[index];
+                                    var tooltipLabel = graphData.labels[index];
+                                    return '{{ 'plugin.sales_report.money'|trans }}' + moneyFormat(tooltipData);
+                                }
+                            }
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    callback: function (value) {
+                                        return Math.round(value).toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,');
                                     }
                                 }
-                            },
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        callback: function(value){
-                                            return Math.round(value).toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,');
-                                        }
-                                    }
-                                }]
-                            }
+                            }]
                         }
-                    };
+                    }
+                };
                 {% endif %}
                 var ctx = document.getElementById("chart").getContext("2d");
                 new Chart(ctx, config);
@@ -102,7 +105,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
 
 {% block option %}
     <div class="row form-group">
-        <div class="col-12 col-sm-2"><span>集計単位</span></div>
+        <div class="col-12 col-sm-2"><span>{{ 'plugin.sales_report.term.001'|trans }}</span></div>
         <div class="col-auto col-lg-auto form-inline">
             {{ form_widget(form.unit) }}
             {{ form_errors(form.unit) }}
@@ -118,7 +121,8 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                     <div class="col-12 text-right mb-2">
                         <div class="d-inline-block">
                             <div class="btn-group d-inline-block" role="group">
-                                <button type="button" class="btn btn-ec-regular" id="export-csv"><i class="fa fa-cloud-download mr-1 text-secondary"></i> CSVダウンロード
+                                <button type="button" class="btn btn-ec-regular" id="export-csv"><i
+                                            class="fa fa-cloud-download mr-1 text-secondary"></i> {{ 'plugin.sales_report.csv.download'|trans }}
                                 </button>
                             </div>
                         </div>
@@ -127,17 +131,17 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                     <table class="table table-striped" id="term-table">
                         <thead>
                         <tr>
-                            <th class="border-top-0 pt-2 pb-2 text-center">期間</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">購入件数</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">男性</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">女性</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">不明</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">男性 (会員)</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">男性 (非会員)</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">女性 (会員)</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">女性 (非会員)</th>
-                            <th class="border-top-0 pt-2 pb-2 text-right">購入合計(円)</th>
-                            <th class="border-top-0 pt-2 pb-2 text-right">購入平均(円)</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.001'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.002'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.003'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.004'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.005'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.006'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.007'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.008'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.009'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-right">{{ 'plugin.sales_report.list.label.010'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-right">{{ 'plugin.sales_report.list.label.011'|trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -177,7 +181,9 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                         </tbody>
                     </table>
                 {% else %}
-                    <h3 class="box-title">集計期間にデータがありませんでした。</h3>
+                    <div class="col-12">
+                        <h3 class="box-title">{{ 'plugin.sales_report.list.nodata'|trans }}</h3>
+                    </div>
                 {% endif %}
             </div>
         </div>

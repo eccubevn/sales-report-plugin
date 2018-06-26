@@ -117,7 +117,7 @@ class SalesReportController extends AbstractController
         }
 
         $response->setCallback(function () use ($data, $request, $type) {
-            //export data by type
+            // Export data by type
             switch ($type) {
                 case 'term':
                     $this->salesReportService->exportTermCsv($data['raw'], $this->eccubeConfig['eccube_csv_export_separator'], $this->eccubeConfig['eccube_csv_export_encoding']);
@@ -133,7 +133,7 @@ class SalesReportController extends AbstractController
             }
         });
 
-        //set filename by type
+        // Set filename by type
         $now = new \DateTime();
         switch ($type) {
             case 'term':

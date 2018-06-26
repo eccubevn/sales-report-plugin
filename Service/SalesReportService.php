@@ -54,17 +54,40 @@ class SalesReportService
     /**
      * @var array
      */
-    private $productCsvHeader = ['商品コード', '商品名', '購入件数（件）', '数量（個）', '金額（円）'];
+    private $productCsvHeader = [
+        'plugin.sales_report.productCsvHeader.001',
+        'plugin.sales_report.productCsvHeader.002',
+        'plugin.sales_report.productCsvHeader.003',
+        'plugin.sales_report.productCsvHeader.004',
+        'plugin.sales_report.productCsvHeader.005'
+    ];
 
     /**
      * @var array
      */
-    private $termCsvHeader = ['期間', '購入件数', '男性', '女性', '不明', '男性(会員)', '男性(非会員)', '女性(会員)', '女性(非会員)', '購入合計(円)', '購入平均(円)'];
+    private $termCsvHeader = [
+        'plugin.sales_report.termCsvHeader.001',
+        'plugin.sales_report.termCsvHeader.002',
+        'plugin.sales_report.termCsvHeader.003',
+        'plugin.sales_report.termCsvHeader.004',
+        'plugin.sales_report.termCsvHeader.005',
+        'plugin.sales_report.termCsvHeader.006',
+        'plugin.sales_report.termCsvHeader.007',
+        'plugin.sales_report.termCsvHeader.008',
+        'plugin.sales_report.termCsvHeader.009',
+        'plugin.sales_report.termCsvHeader.010',
+        'plugin.sales_report.termCsvHeader.011'
+    ];
 
     /**
      * @var array
      */
-    private $ageCsvHeader = ['年代', '購入件数(件)', '購入合計(円)', '購入平均(円)'];
+    private $ageCsvHeader = [
+        'plugin.sales_report.ageCsvHeader.001',
+        'plugin.sales_report.ageCsvHeader.002',
+        'plugin.sales_report.ageCsvHeader.003',
+        'plugin.sales_report.ageCsvHeader.004'
+        ];
 
     /**
      * @var int
@@ -201,7 +224,7 @@ class SalesReportService
             $headerRow = [];
             //convert header to encoding
             foreach ($headers as $header) {
-                $headerRow[] = mb_convert_encoding($header, $encoding, 'UTF-8');
+                $headerRow[] = mb_convert_encoding(trans($header), $encoding, 'UTF-8');
             }
             fputcsv($handle, $headerRow, $separator);
             //convert data to encoding
@@ -232,7 +255,7 @@ class SalesReportService
             $headerRow = [];
             //convert header to encoding
             foreach ($headers as $header) {
-                $headerRow[] = mb_convert_encoding($header, $encoding, 'UTF-8');
+                $headerRow[] = mb_convert_encoding(trans($header), $encoding, 'UTF-8');
             }
             fputcsv($handle, $headerRow, $separator);
             foreach ($rows as $date => $row) {
@@ -264,7 +287,7 @@ class SalesReportService
             $headerRow = [];
             //convert header to encoding
             foreach ($headers as $header) {
-                $headerRow[] = mb_convert_encoding($header, $encoding, 'UTF-8');
+                $headerRow[] = mb_convert_encoding(trans($header), $encoding, 'UTF-8');
             }
             fputcsv($handle, $headerRow, $separator);
             foreach ($rows as $age => $row) {
@@ -275,10 +298,10 @@ class SalesReportService
                 }
                 //convert from number to japanese.
                 if ($age == 999) {
-                    $age = '未回答';
+                    $age = trans('plugin.sales_report.age.list.001');
                     $age = mb_convert_encoding($age, $encoding, 'UTF-8');
                 } else {
-                    $age = mb_convert_encoding($age.'代', $encoding, 'UTF-8');
+                    $age = mb_convert_encoding($age.trans('plugin.sales_report.age.list.002'), $encoding, 'UTF-8');
                 }
                 fputcsv($handle, [$age, $row['time'], $row['total'], $money], $separator);
             }
@@ -495,7 +518,7 @@ class SalesReportService
         $graph = [
             'labels' => array_keys($price),
             'datasets' => [
-                'label' => '購入合計',
+                'label' => trans('plugin.sales_report.list.label.012'),
                 'data' => array_values($price),
                 'lineTension' => 0.1,
                 'backgroundColor' => 'rgba(75,192,192,0.4)',
@@ -647,10 +670,10 @@ class SalesReportService
         ksort($raw);
         foreach ($result as $key => $value) {
             if ($key == 999) {
-                $key = '未回答';
+                $key = trans('plugin.sales_report.age.list.001');
                 $tmp[$key] = $value;
             } else {
-                $tmp[$key.'代'] = $value;
+                $tmp[$key.trans('plugin.sales_report.generation')] = $value;
             }
         }
         log_info('SalesReport Plugin : age report ', ['result count' => count($raw)]);
@@ -665,7 +688,7 @@ class SalesReportService
         $graph = [
             'labels' => array_keys($tmp),
             'datasets' => [
-                'label' => '購入合計',
+                'label' => trans('plugin.sales_report.list.label.012'),
                 'backgroundColor' => $backgroundColor,
                 'borderColor' => $backgroundColor,
                 'borderWidth' => 0,
