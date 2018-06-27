@@ -45,9 +45,9 @@ class Nav implements EccubeNav
                         'id' => 'admin_plugin_sales_report_age',
                         'url' => 'admin_plugin_sales_report_age',
                         'name' => '年代別集計',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
     }
 }

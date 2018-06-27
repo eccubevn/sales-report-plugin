@@ -1,5 +1,3 @@
 name: 売上集計プラグイン
 code: SalesReport
 version: 1.0.0
-service:
-    - SalesReportServiceProvider

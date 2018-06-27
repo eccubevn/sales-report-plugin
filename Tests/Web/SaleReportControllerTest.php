@@ -13,11 +13,23 @@
 
 namespace Plugin\SalesReport\Tests\Web;
 
+use Eccube\Repository\TaxRuleRepository;
+
 /**
  * Class SaleReportControllerTest.
  */
 class SaleReportControllerTest extends SaleReportCommon
 {
+    /** @var TaxRuleRepository */
+    protected $taxRuleRepository;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->taxRuleRepository = $this->container->get(TaxRuleRepository::class);
+    }
+
     /**
      * test routing admin sale report.
      *
@@ -27,7 +39,7 @@ class SaleReportControllerTest extends SaleReportCommon
      */
     public function testRouting($type, $expected)
     {
-        $crawler = $this->client->request('GET', $this->app->url('admin_plugin_sales_report'.$type));
+        $crawler = $this->client->request('GET', $this->generateUrl('admin_plugin_sales_report'.$type));
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertContains($expected, $crawler->html());
     }
@@ -41,7 +53,7 @@ class SaleReportControllerTest extends SaleReportCommon
     public function testDisplayTodayAsDefault($type)
     {
         $current = new \DateTime();
-        $crawler = $this->client->request('GET', $this->app->url('admin_plugin_sales_report'.$type));
+        $crawler = $this->client->request('GET', $this->generateUrl('admin_plugin_sales_report'.$type));
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertContains($current->format('Y-m-d'), $crawler->html());
     }
@@ -88,7 +100,7 @@ class SaleReportControllerTest extends SaleReportCommon
             $arrSearch['term_start'] = $current->modify('-15 days')->format('Y-m-d');
             $arrSearch['term_end'] = $current->modify('+15 days')->format('Y-m-d');
         }
-        $crawler = $this->client->request('POST', $this->app->url('admin_plugin_sales_report'.$type), ['sales_report' => $arrSearch]);
+        $crawler = $this->client->request('POST', $this->generateUrl('admin_plugin_sales_report'.$type), ['sales_report' => $arrSearch]);
         $this->assertContains($expected, $crawler->html());
 
         // Test display csv download button
@@ -122,7 +134,7 @@ class SaleReportControllerTest extends SaleReportCommon
             $arrSearch['term_start'] = $current->modify('-15 days')->format('Y-m-d');
             $arrSearch['term_end'] = $current->modify('+15 days')->format('Y-m-d');
         }
-        $crawler = $this->client->request('POST', $this->app->url('admin_plugin_sales_report'.$type), ['sales_report' => $arrSearch]);
+        $crawler = $this->client->request('POST', $this->generateUrl('admin_plugin_sales_report'.$type), ['sales_report' => $arrSearch]);
         $moneyElement = $crawler->filter('tr .hidden');
         //get only total money. don't get product price
         foreach ($moneyElement as $domElement) {
@@ -155,8 +167,6 @@ class SaleReportControllerTest extends SaleReportCommon
     public function testProductDelete($type, $termType, $unit, $expected)
     {
         $current = new \DateTime();
-        $arrOrder = $this->createOrderByCustomer(5);
-        $this->deleteProduct($arrOrder[0]);
         $arrSearch = [
             'term_type' => $termType,
             '_token' => 'dummy',
@@ -173,7 +183,7 @@ class SaleReportControllerTest extends SaleReportCommon
             $arrSearch['term_start'] = $current->modify('-15 days')->format('Y-m-d');
             $arrSearch['term_end'] = $current->modify('+15 days')->format('Y-m-d');
         }
-        $crawler = $this->client->request('POST', $this->app->url('admin_plugin_sales_report'.$type), ['sales_report' => $arrSearch]);
+        $crawler = $this->client->request('POST', $this->generateUrl('admin_plugin_sales_report'.$type), ['sales_report' => $arrSearch]);
         $this->assertContains($expected, $crawler->html());
     }
 
@@ -190,7 +200,7 @@ class SaleReportControllerTest extends SaleReportCommon
         $orderMoney = 0;
         $current = new \DateTime();
         $arrOrder = $this->createOrderByCustomer(5);
-        $TaxRule = $this->app['eccube.repository.tax_rule']->getByRule();
+        $TaxRule = $this->taxRuleRepository->getByRule();
         $this->changeOrderDetail($arrOrder);
         $arrSearch = [
             'term_type' => $termType,
@@ -204,7 +214,7 @@ class SaleReportControllerTest extends SaleReportCommon
             $arrSearch['term_start'] = $current->modify('-15 days')->format('Y-m-d');
             $arrSearch['term_end'] = $current->modify('+15 days')->format('Y-m-d');
         }
-        $crawler = $this->client->request('POST', $this->app->url('admin_plugin_sales_report'.$type), ['sales_report' => $arrSearch]);
+        $crawler = $this->client->request('POST', $this->generateUrl('admin_plugin_sales_report'.$type), ['sales_report' => $arrSearch]);
         $moneyElement = $crawler->filter('tr .hidden');
         //get only total money. don't get product price
         foreach ($moneyElement as $domElement) {

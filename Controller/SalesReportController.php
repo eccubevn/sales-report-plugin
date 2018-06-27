@@ -26,7 +26,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  */
 class SalesReportController extends AbstractController
 {
-
     /** @var SalesReportService */
     protected $salesReportService;
 

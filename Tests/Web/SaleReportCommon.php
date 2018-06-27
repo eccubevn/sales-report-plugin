@@ -13,21 +13,32 @@
 
 namespace Plugin\SalesReport\Tests\Web;
 
+use Eccube\Entity\Master\OrderStatus;
+use Eccube\Entity\Order;
+use Eccube\Repository\CustomerRepository;
+use Eccube\Repository\Master\OrderStatusRepository;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
-use Eccube\Common\Constant;
 
 /**
  * Class SaleReportCommon.
  */
 class SaleReportCommon extends AbstractAdminWebTestCase
 {
+    /** @var CustomerRepository */
+    protected $customerRepository;
+
+    /** @var OrderStatusRepository */
+    protected $orderStatusRepository;
+
     /**
      * Set up function.
      */
     public function setUp()
     {
         parent::setUp();
-        $this->deleteAllRows(['dtb_order_detail']);
+        $this->deleteAllRows(['dtb_order_item']);
+        $this->customerRepository = $this->container->get(CustomerRepository::class);
+        $this->orderStatusRepository = $this->container->get(OrderStatusRepository::class);
     }
 
     /**
@@ -48,8 +59,8 @@ class SaleReportCommon extends AbstractAdminWebTestCase
             $Customer = $this->createCustomer($email);
             $arrCustomer[] = $Customer->getId();
             $Customer->setBirth($age);
-            $this->app['orm.em']->persist($Customer);
-            $this->app['orm.em']->flush($Customer);
+            $this->entityManager->persist($Customer);
+            $this->entityManager->flush($Customer);
         }
 
         return $arrCustomer;
@@ -68,38 +79,16 @@ class SaleReportCommon extends AbstractAdminWebTestCase
         $current = new \DateTime();
         $arrOrder = [];
         for ($i = 0; $i < count($arrCustomer); ++$i) {
-            $Customer = $this->app['eccube.repository.customer']->find($arrCustomer[$i]);
+            $Customer = $this->customerRepository->find($arrCustomer[$i]);
             $Order = $this->createOrder($Customer);
-            $Order->setOrderStatus($this->app['eccube.repository.order_status']->find($this->app['config']['order_new']));
+            $Order->setOrderStatus($this->orderStatusRepository->find(OrderStatus::NEW));
             $Order->setOrderDate($current);
             $arrOrder[] = $Order;
-            $this->app['orm.em']->persist($Order);
-            $this->app['orm.em']->flush($Order);
+            $this->entityManager->persist($Order);
+            $this->entityManager->flush($Order);
         }
 
         return $arrOrder;
-    }
-
-    /**
-     * delete product.
-     *
-     * @param \Eccube\Entity\Order $Order
-     */
-    public function deleteProduct($Order)
-    {
-        foreach ($Order->getOrderDetails() as $OrderDetail) {
-            $Product = $OrderDetail->getProduct();
-            $ProductClasses = $Product->getProductClasses();
-            $Product->setDelFlg(Constant::ENABLED);
-            foreach ($ProductClasses as $ProductClass) {
-                $ProductClass->setDelFlg(Constant::ENABLED);
-                $Product->removeProductClass($ProductClass);
-                $this->app['orm.em']->persist($ProductClass);
-                $this->app['orm.em']->flush($ProductClass);
-            }
-            $this->app['orm.em']->persist($Product);
-            $this->app['orm.em']->flush($Product);
-        }
     }
 
     /**
@@ -110,12 +99,13 @@ class SaleReportCommon extends AbstractAdminWebTestCase
     public function changeOrderDetail($Orders)
     {
         foreach ($Orders as $Order) {
-            foreach ($Order->getOrderDetails() as $OrderDetail) {
-                /* @var \Eccube\Entity\OrderDetail $OrderDetail */
+            /** @var Order $Order */
+            foreach ($Order->getOrderItems() as $OrderDetail) {
+                /* @var \Eccube\Entity\OrderItem $OrderDetail */
                 $OrderDetail->setPrice(500);
                 $OrderDetail->setQuantity(1);
-                $this->app['orm.em']->persist($OrderDetail);
-                $this->app['orm.em']->flush($OrderDetail);
+                $this->entityManager->persist($OrderDetail);
+                $this->entityManager->flush($OrderDetail);
             }
         }
     }

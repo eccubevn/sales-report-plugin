@@ -16,6 +16,7 @@ namespace Plugin\SalesReport\Service;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Eccube\Application;
+use Eccube\Common\EccubeConfig;
 use Eccube\Entity\Master\OrderStatus;
 use Eccube\Util\EntityUtil;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +30,7 @@ class SalesReportService
     /**
      * @var Application
      */
-    private $app;
+    private $eccubeConfig;
 
     /**
      * @var string
@@ -59,7 +60,7 @@ class SalesReportService
         'plugin.sales_report.productCsvHeader.002',
         'plugin.sales_report.productCsvHeader.003',
         'plugin.sales_report.productCsvHeader.004',
-        'plugin.sales_report.productCsvHeader.005'
+        'plugin.sales_report.productCsvHeader.005',
     ];
 
     /**
@@ -76,7 +77,7 @@ class SalesReportService
         'plugin.sales_report.termCsvHeader.008',
         'plugin.sales_report.termCsvHeader.009',
         'plugin.sales_report.termCsvHeader.010',
-        'plugin.sales_report.termCsvHeader.011'
+        'plugin.sales_report.termCsvHeader.011',
     ];
 
     /**
@@ -86,7 +87,7 @@ class SalesReportService
         'plugin.sales_report.ageCsvHeader.001',
         'plugin.sales_report.ageCsvHeader.002',
         'plugin.sales_report.ageCsvHeader.003',
-        'plugin.sales_report.ageCsvHeader.004'
+        'plugin.sales_report.ageCsvHeader.004',
         ];
 
     /**
@@ -99,17 +100,19 @@ class SalesReportService
      */
     const FEMALE = 2;
 
-    /** @var  EntityManager */
+    /** @var EntityManager */
     protected $entityManager;
 
     /**
      * SalesReportService constructor.
      *
      * @param EntityManager $entityManager
+     * @param EccubeConfig $eccubeConfig
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, EccubeConfig $eccubeConfig)
     {
         $this->entityManager = $entityManager;
+        $this->eccubeConfig = $eccubeConfig;
     }
 
     /**
@@ -177,12 +180,10 @@ class SalesReportService
      */
     public function getData()
     {
-        $app = $this->app;
-
         $excludes = [
             OrderStatus::PROCESSING,
             OrderStatus::CANCEL,
-            OrderStatus::PENDING
+            OrderStatus::PENDING,
         ];
 
         /* @var $qb \Doctrine\ORM\QueryBuilder */
@@ -190,7 +191,6 @@ class SalesReportService
         $qb
             ->select('o')
             ->from('Eccube\Entity\Order', 'o')
-//            ->andWhere('o.del_flg = 0')
             ->andWhere('o.order_date >= :start')
             ->andWhere('o.order_date <= :end')
             ->andWhere('o.OrderStatus NOT IN (:excludes)')
@@ -589,7 +589,7 @@ class SalesReportService
         }
         //sort by total money
         $count = 0;
-        $maxDisplayCount = $this->app['config']['SalesReport']['const']['product_maximum_display'];
+        $maxDisplayCount = $this->eccubeConfig['product_maximum_display'];
         $products = $this->sortBy('total', $products);
         log_info('SalesReport Plugin : product report ', ['result count' => count($products)]);
         foreach ($products as $key => $product) {
