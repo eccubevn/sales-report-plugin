@@ -27,24 +27,24 @@ class Nav implements EccubeNav
         return [
             'customer' => [
                 'id' => 'admin_plugin_sales_report',
-                'name' => '売上集計',
+                'name' => 'plugin.sales_report.nav.001',
                 'has_child' => 'true',
                 'icon' => 'cb-chart',
                 'child' => [
                     [
                         'id' => 'admin_plugin_sales_report_term',
                         'url' => 'admin_plugin_sales_report_term',
-                        'name' => '期間別集計',
+                        'name' => 'plugin.sales_report.nav.002',
                     ],
                     [
                         'id' => 'admin_plugin_sales_report_product',
                         'url' => 'admin_plugin_sales_report_product',
-                        'name' => '商品別集計',
+                        'name' => 'plugin.sales_report.nav.003',
                     ],
                     [
                         'id' => 'admin_plugin_sales_report_age',
                         'url' => 'admin_plugin_sales_report_age',
-                        'name' => '年代別集計',
+                        'name' => 'plugin.sales_report.nav.004',
                     ],
                 ],
             ],

@@ -30,21 +30,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SalesReportType extends AbstractType
 {
     /**
-     * @var \Eccube\Application
-     */
-    private $eccubeConfig;
-
-    /**
-     * SalesReportType constructor.
-     *
-     * @param EccubeConfig $eccubeConfig
-     */
-    public function __construct(EccubeConfig $eccubeConfig)
-    {
-        $this->eccubeConfig = $eccubeConfig;
-    }
-
-    /**
      * BuildForm Sale Report.
      *
      * @param FormBuilderInterface $builder
@@ -52,7 +37,6 @@ class SalesReportType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $app = $this->eccubeConfig;
         // 年月の配列定義. 今年±20年
         $yearList = range(date('Y'), date('Y') - 20);
         // 1～12月
@@ -106,7 +90,7 @@ class SalesReportType extends AbstractType
                     new Assert\NotBlank(),
                 ],
             ])
-            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($app) {
+            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                 $form = $event->getForm();
                 $data = $form->getData();
                 if ($data['term_type'] === 'monthly') {
