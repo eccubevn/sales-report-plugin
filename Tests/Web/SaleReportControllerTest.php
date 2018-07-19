@@ -82,6 +82,8 @@ class SaleReportControllerTest extends SaleReportCommon
      */
     public function testSaleReportAll($type, $termType, $unit, $expected)
     {
+        $this->createOrderByCustomer(5);
+
         $current = new \DateTime();
         $arrSearch = [
             'term_type' => $termType,
