@@ -8,11 +8,11 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
 #}
 
 {% extends 'SalesReport/Resource/template/admin/index.twig' %}
-{% block sub_title %}{{ 'plugin.sales_report.sub.title.term'|trans }}{% endblock %}
+{% block sub_title %}{{ 'sales_report.sub.title.term'|trans }}{% endblock %}
 
-{% set report_title = 'plugin.sales_report.term.report_title'|trans %}
-{% set action = url('admin_plugin_sales_report_term') %}
-{% set menus = ['customer', 'admin_plugin_sales_report', 'admin_plugin_sales_report_term'] %}
+{% set report_title = 'sales_report.term.report_title'|trans %}
+{% set action = url('sales_report_admin_term') %}
+{% set menus = ['customer', 'sales_report_admin', 'sales_report_admin_term'] %}
 
 {% block stylesheet %}
     <style>
@@ -44,7 +44,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                                     var index = tooltipItem.index;
                                     var tooltipData = graphData.datasets[0].data[index];
                                     var tooltipLabel = graphData.labels[index];
-                                    return '{{ 'plugin.sales_report.money'|trans }}' + moneyFormat(tooltipData);
+                                    return '{{ 'sales_report.money'|trans }}' + moneyFormat(tooltipData);
                                 }
                             }
                         },
@@ -71,7 +71,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                                     var index = tooltipItem.index;
                                     var tooltipData = graphData.datasets[0].data[index];
                                     var tooltipLabel = graphData.labels[index];
-                                    return '{{ 'plugin.sales_report.money'|trans }}' + moneyFormat(tooltipData);
+                                    return '{{ 'sales_report.money'|trans }}' + moneyFormat(tooltipData);
                                 }
                             }
                         },
@@ -94,7 +94,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
             $('#export-csv').click(function () {
                 var form = document.createElement("form");
                 form.setAttribute("method", 'POST');
-                form.setAttribute("action", "{{ url('admin_plugin_sales_report_export', { type : 'term' }) }}");
+                form.setAttribute("action", "{{ url('sales_report_admin_export', { type : 'term' }) }}");
                 document.body.appendChild(form);
                 form.submit();
                 document.body.removeChild(form);
@@ -105,7 +105,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
 
 {% block option %}
     <div class="row form-group">
-        <div class="col-12 col-sm-2"><span>{{ 'plugin.sales_report.term.001'|trans }}</span></div>
+        <div class="col-12 col-sm-2"><span>{{ 'sales_report.term.001'|trans }}</span></div>
         <div class="col-auto col-lg-auto form-inline">
             {{ form_widget(form.unit) }}
             {{ form_errors(form.unit) }}
@@ -122,7 +122,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                         <div class="d-inline-block">
                             <div class="btn-group d-inline-block" role="group">
                                 <button type="button" class="btn btn-ec-regular" id="export-csv"><i
-                                            class="fa fa-cloud-download mr-1 text-secondary"></i> {{ 'plugin.sales_report.csv.download'|trans }}
+                                            class="fa fa-cloud-download mr-1 text-secondary"></i> {{ 'sales_report.csv.download'|trans }}
                                 </button>
                             </div>
                         </div>
@@ -131,17 +131,17 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                     <table class="table table-striped" id="term-table">
                         <thead>
                         <tr>
-                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.001'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.002'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.003'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.004'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.005'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.006'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.007'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.008'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.list.label.009'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-right">{{ 'plugin.sales_report.list.label.010'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-right">{{ 'plugin.sales_report.list.label.011'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'sales_report.list.label.001'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'sales_report.list.label.002'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'sales_report.list.label.003'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'sales_report.list.label.004'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'sales_report.list.label.005'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'sales_report.list.label.006'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'sales_report.list.label.007'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'sales_report.list.label.008'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'sales_report.list.label.009'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-right">{{ 'sales_report.list.label.010'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-right">{{ 'sales_report.list.label.011'|trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -160,7 +160,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
 
                                 <td class="price-format text-right">
                                     {{ row.price|number_format }}
-                                    <span class="hidden">{{ row.price }}</span>
+                                    <span class="d-none">{{ row.price }}</span>
                                 </td>
                                 <td class="price-format text-right">
                                     {% if row.time > 0 %}
@@ -168,7 +168,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                                     {% else %}
                                         0
                                     {% endif %}
-                                    <span class="hidden">
+                                    <span class="d-none">
                                                     {% if row.time > 0 %}
                                                         {{ (row.price / row.time)|round(2, 'floor') }}
                                                     {% else %}
@@ -182,7 +182,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                     </table>
                 {% else %}
                     <div class="col-12">
-                        <h3 class="box-title">{{ 'plugin.sales_report.list.nodata'|trans }}</h3>
+                        <h3 class="box-title">{{ 'sales_report.list.nodata'|trans }}</h3>
                     </div>
                 {% endif %}
             </div>

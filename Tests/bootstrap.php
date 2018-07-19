@@ -11,14 +11,8 @@
  * file that was distributed with this source code.
  */
 
-namespace Plugin\SalesReport;
-
-use Eccube\Plugin\AbstractPluginManager;
-use Eccube\Application;
-
-/**
- * Class PluginManager.
- */
-class PluginManager extends AbstractPluginManager
-{
+$loader = require __DIR__.'/../../../../vendor/autoload.php';
+$envFile = __DIR__.'/../../../../.env';
+if (file_exists($envFile)) {
+    (new \Symfony\Component\Dotenv\Dotenv())->load($envFile);
 }

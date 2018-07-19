@@ -8,11 +8,11 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
 #}
 
 {% extends 'SalesReport/Resource/template/admin/index.twig' %}
-{% block sub_title %}{{ 'plugin.sales_report.sub.title.age'|trans }}{% endblock %}
+{% block sub_title %}{{ 'sales_report.sub.title.age'|trans }}{% endblock %}
 
-{% set report_title = 'plugin.sales_report.report_title'|trans %}
-{% set action = url('admin_plugin_sales_report_age') %}
-{% set menus = ['customer', 'admin_plugin_sales_report', 'admin_plugin_sales_report_age'] %}
+{% set report_title = 'sales_report.report_title'|trans %}
+{% set action = url('sales_report_admin_age') %}
+{% set menus = ['customer', 'sales_report_admin', 'sales_report_admin_age'] %}
 
 {% block chart %}
     <script>
@@ -33,7 +33,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                                     var index = tooltipItem.index;
                                     var tooltipData = graphData.datasets[0].data[index];
                                     var tooltipLabel = graphData.labels[index];
-                                    return '{{ 'plugin.sales_report.money'|trans }}' + moneyFormat(tooltipData);
+                                    return '{{ 'sales_report.money'|trans }}' + moneyFormat(tooltipData);
                                 }
                             }
                         },
@@ -58,7 +58,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
             $('#export-csv').click(function () {
                 var form = document.createElement("form");
                 form.setAttribute("method", 'POST');
-                form.setAttribute("action", "{{ url('admin_plugin_sales_report_export', { type : 'age' }) }}");
+                form.setAttribute("action", "{{ url('sales_report_admin_export', { type : 'age' }) }}");
                 document.body.appendChild(form);
                 form.submit();
                 document.body.removeChild(form);
@@ -78,7 +78,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                         <div class="d-inline-block">
                             <div class="btn-group d-inline-block" role="group">
                                 <button type="button" class="btn btn-ec-regular" id="export-csv"><i
-                                            class="fa fa-cloud-download mr-1 text-secondary"></i> {{ 'plugin.sales_report.csv.download'|trans }}
+                                            class="fa fa-cloud-download mr-1 text-secondary"></i> {{ 'sales_report.csv.download'|trans }}
                                 </button>
                             </div>
                         </div>
@@ -86,20 +86,20 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                     <table class="table table-striped" id="age-table">
                         <thead>
                         <tr>
-                            <th class="border-top-0 pt-2 pb-2 text-left">{{ 'plugin.sales_report.age.field.001'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'plugin.sales_report.age.field.002'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-right">{{ 'plugin.sales_report.age.field.003'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-right">{{ 'plugin.sales_report.age.field.004'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-left">{{ 'sales_report.age.field.001'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'sales_report.age.field.002'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-right">{{ 'sales_report.age.field.003'|trans }}</th>
+                            <th class="border-top-0 pt-2 pb-2 text-right">{{ 'sales_report.age.field.004'|trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for age, row in rawData %}
                             <tr>
-                                <td class="align-middle pl-3">{{ age == 999 ? 'plugin.sales_report.age.list.001'|trans : age~'plugin.sales_report.age.list.002'|trans }}</td>
+                                <td class="align-middle pl-3">{{ age == 999 ? 'sales_report.age.list.001'|trans : age~'sales_report.age.list.002'|trans }}</td>
                                 <td class="align-middle text-center pl-3">{{ row.time|number_format }}</td>
                                 <td class="price-format text-right align-middle">
                                     {{ row.total|number_format }}
-                                    <span class="hidden">{{ row.total }}</span>
+                                    <span class="d-none">{{ row.total }}</span>
                                 </td>
                                 <td class="price-format text-right align-middle">
                                     {% if row.time > 0 %}
@@ -107,7 +107,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                                     {% else %}
                                         0
                                     {% endif %}
-                                    <span class="hidden">
+                                    <span class="d-none">
                                                     {% if row.time > 0 %}
                                                         {{ (row.total / row.time)|round(2, 'floor') }}
                                                     {% else %}
@@ -121,7 +121,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                     </table>
                 {% else %}
                     <div class="col-12">
-                        <h3 class="box-title">{{ 'plugin.sales_report.list.nodata'|trans }}</h3>
+                        <h3 class="box-title">{{ 'sales_report.list.nodata'|trans }}</h3>
                     </div>
                 {% endif %}
             </div>

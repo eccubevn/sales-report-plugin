@@ -9,7 +9,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
 
 {% extends '@admin/default_frame.twig' %}
 
-{% block title %}{{ 'plugin.sales_report.title'|trans }}{% endblock %}
+{% block title %}{{ 'sales_report.title'|trans }}{% endblock %}
 
 {% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
 
@@ -150,19 +150,19 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                             {% block option %}{% endblock %}
 
                             <div class="row form-group">
-                                <div class="col-12 col-sm-2"><span>{{ 'plugin.sales_report.index.001'|trans }}</span></div>
+                                <div class="col-12 col-sm-2"><span>{{ 'sales_report.index.001'|trans }}</span></div>
                                 <div class="col-auto col-lg-auto form-inline">
-                                    {{ form_widget(form.monthly_year) }} {{ 'plugin.sales_report.label.monthly_year'|trans }} {{ form_widget(form.monthly_month) }} {{ 'plugin.sales_report.label.monthly_month'|trans }}
+                                    {{ form_widget(form.monthly_year) }} {{ 'sales_report.label.monthly_year'|trans }} {{ form_widget(form.monthly_month) }} {{ 'sales_report.label.monthly_month'|trans }}
                                     {{ form_errors(form.monthly_year) }}{{ form_errors(form.monthly_month) }}
-                                    <button id="btn-monthly" class="btn btn-ec-conversion px-5 ladda-button" data-style="expand-right" type="submit"><span class="ladda-label">{{ 'plugin.sales_report.index.002'|trans }}</span><span class="ladda-spinner"></span></button>
+                                    <button id="btn-monthly" class="btn btn-ec-conversion px-5 ladda-button" data-style="expand-right" type="submit"><span class="ladda-label">{{ 'sales_report.index.002'|trans }}</span><span class="ladda-spinner"></span></button>
                                 </div>
                             </div>
                             <div class="row form-group">
-                                <div class="col-12 col-sm-2"><span>{{ 'plugin.sales_report.index.003'|trans }}</span></div>
+                                <div class="col-12 col-sm-2"><span>{{ 'sales_report.index.003'|trans }}</span></div>
                                 <div class="col-auto col-lg-auto form-inline">
-                                    {{ form_widget(form.term_start, {'attr': {'placeholder': 'plugin.sales_report.placholder'|trans }}) }} ～ {{ form_widget(form.term_end, {'attr': {'placeholder': 'plugin.sales_report.placholder'|trans}}) }}
+                                    {{ form_widget(form.term_start, {'attr': {'placeholder': 'sales_report.placholder'|trans }}) }} ～ {{ form_widget(form.term_end, {'attr': {'placeholder': 'sales_report.placholder'|trans}}) }}
                                     &nbsp;
-                                    <button id="btn-term" class="btn btn-ec-conversion px-5 ladda-button" data-style="expand-right" type="submit"><span class="ladda-label">{{ 'plugin.sales_report.index.004'|trans }}</span><span class="ladda-spinner"></span></button>
+                                    <button id="btn-term" class="btn btn-ec-conversion px-5 ladda-button" data-style="expand-right" type="submit"><span class="ladda-label">{{ 'sales_report.index.004'|trans }}</span><span class="ladda-spinner"></span></button>
                                     {{ form_errors(form.term_start) }}
                                     {{ form_errors(form.term_end) }}
                                 </div>

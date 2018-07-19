@@ -43,7 +43,7 @@ class SalesReportController extends AbstractController
      * 期間別集計.
      *
      * @param Request $request
-     * @Route("%eccube_admin_route%/plugin/sales_report/term", name="admin_plugin_sales_report_term")
+     * @Route("%eccube_admin_route%/plugin/sales_report/term", name="sales_report_admin_term")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -56,7 +56,7 @@ class SalesReportController extends AbstractController
      * 商品別集計.
      *
      * @param Request     $request
-     * @Route("%eccube_admin_route%/plugin/sales_report/product", name="admin_plugin_sales_report_product")
+     * @Route("%eccube_admin_route%/plugin/sales_report/product", name="sales_report_admin_product")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -69,7 +69,7 @@ class SalesReportController extends AbstractController
      * 年代別集計.
      *
      * @param Request     $request
-     * @Route("%eccube_admin_route%/plugin/sales_report/age", name="admin_plugin_sales_report_age")
+     * @Route("%eccube_admin_route%/plugin/sales_report/age", name="sales_report_admin_age")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -83,7 +83,7 @@ class SalesReportController extends AbstractController
      *
      * @param Request     $request
      * @param string      $type
-     * @Route("%eccube_admin_route%/plugin/sales_report/export/{type}", name="admin_plugin_sales_report_export")
+     * @Route("%eccube_admin_route%/plugin/sales_report/export/{type}", name="sales_report_admin_export")
      * @Method("POST")
      *
      * @return StreamedResponse
@@ -93,8 +93,8 @@ class SalesReportController extends AbstractController
         set_time_limit(0);
         $response = new StreamedResponse();
         $session = $request->getSession();
-        if ($session->has('eccube.admin.plugin.sales_report.export')) {
-            $searchData = $session->get('eccube.admin.plugin.sales_report.export');
+        if ($session->has('eccube.admin.sales_report.export')) {
+            $searchData = $session->get('eccube.admin.sales_report.export');
         } else {
             $searchData = [];
         }
@@ -186,7 +186,7 @@ class SalesReportController extends AbstractController
             $session = $request->getSession();
             $searchData = $form->getData();
             $searchData['term_type'] = $form->get('term_type')->getData();
-            $session->set('eccube.admin.plugin.sales_report.export', $searchData);
+            $session->set('eccube.admin.sales_report.export', $searchData);
             $termType = $form->get('term_type')->getData();
 
             $data = $this->salesReportService
