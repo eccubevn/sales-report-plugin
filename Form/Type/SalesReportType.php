@@ -13,7 +13,6 @@
 
 namespace Plugin\SalesReport\Form\Type;
 
-use Eccube\Common\EccubeConfig;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;

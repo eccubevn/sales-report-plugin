@@ -14,7 +14,6 @@
 namespace Plugin\SalesReport;
 
 use Eccube\Plugin\AbstractPluginManager;
-use Eccube\Application;
 
 /**
  * Class PluginManager.
