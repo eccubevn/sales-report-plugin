@@ -26,7 +26,6 @@ class SaleReportControllerTest extends SaleReportCommon
     public function setUp()
     {
         parent::setUp();
-
         $this->taxRuleRepository = $this->container->get(TaxRuleRepository::class);
     }
 
@@ -83,7 +82,6 @@ class SaleReportControllerTest extends SaleReportCommon
      */
     public function testSaleReportAll($type, $termType, $unit, $expected)
     {
-        $this->createOrderByCustomer(5);
         $current = new \DateTime();
         $arrSearch = [
             'term_type' => $termType,
@@ -166,6 +164,8 @@ class SaleReportControllerTest extends SaleReportCommon
      */
     public function testProductDelete($type, $termType, $unit, $expected)
     {
+        $this->createOrderByCustomer(5);
+
         $current = new \DateTime();
         $arrSearch = [
             'term_type' => $termType,
