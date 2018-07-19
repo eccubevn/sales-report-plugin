@@ -36,6 +36,7 @@ class SaleReportCommon extends AbstractAdminWebTestCase
     public function setUp()
     {
         parent::setUp();
+        $this->deleteAllRows(['dtb_order_item']);
         $this->customerRepository = $this->container->get(CustomerRepository::class);
         $this->orderStatusRepository = $this->container->get(OrderStatusRepository::class);
     }

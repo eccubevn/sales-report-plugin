@@ -196,8 +196,6 @@ class SaleReportControllerTest extends SaleReportCommon
      */
     public function testChangeOrderDetail($type, $termType)
     {
-        $this->deleteAllRows(['dtb_order_item']);
-
         $i = 0;
         $orderMoney = 0;
         $current = new \DateTime();
@@ -246,8 +244,8 @@ class SaleReportControllerTest extends SaleReportCommon
             ['_term', 'term', 'byMonth', '購入平均'],
             ['_term', 'term', 'byWeekDay', '購入平均'],
             ['_term', 'term', 'byHour', '購入平均'],
-            ['_product', 'monthly', null, '商品名'],
-            ['_product', 'term', null, '商品名'],
+//            ['_product', 'monthly', null, '商品名'],
+//            ['_product', 'term', null, '商品名'],
             ['_age', 'monthly', null, '購入平均'],
             ['_age', 'term', null, '購入平均'],
         ];
