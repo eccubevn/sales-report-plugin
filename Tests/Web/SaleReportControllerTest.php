@@ -32,6 +32,7 @@ class SaleReportControllerTest extends SaleReportCommon
     /**
      * test routing admin sale report.
      *
+     *
      * @param string $type
      * @param string $expected
      * @dataProvider dataRoutingProvider
