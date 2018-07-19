@@ -135,7 +135,7 @@ class SaleReportControllerTest extends SaleReportCommon
             $arrSearch['term_end'] = $current->modify('+15 days')->format('Y-m-d');
         }
         $crawler = $this->client->request('POST', $this->generateUrl('sales_report_admin'.$type), ['sales_report' => $arrSearch]);
-        $moneyElement = $crawler->filter('tr .hidden');
+        $moneyElement = $crawler->filter('tr .d-none');
         //get only total money. don't get product price
         foreach ($moneyElement as $domElement) {
             if ($i % 2 != 0) {
@@ -196,6 +196,8 @@ class SaleReportControllerTest extends SaleReportCommon
      */
     public function testChangeOrderDetail($type, $termType)
     {
+        $this->deleteAllRows(['dtb_order_item']);
+
         $i = 0;
         $orderMoney = 0;
         $current = new \DateTime();
@@ -215,7 +217,7 @@ class SaleReportControllerTest extends SaleReportCommon
             $arrSearch['term_end'] = $current->modify('+15 days')->format('Y-m-d');
         }
         $crawler = $this->client->request('POST', $this->generateUrl('sales_report_admin'.$type), ['sales_report' => $arrSearch]);
-        $moneyElement = $crawler->filter('tr .hidden');
+        $moneyElement = $crawler->filter('tr .d-none');
         //get only total money. don't get product price
         foreach ($moneyElement as $domElement) {
             $orderMoney += $domElement->nodeValue;

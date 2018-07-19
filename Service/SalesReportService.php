@@ -301,7 +301,7 @@ class SalesReportService
                     $age = trans('sales_report.age.list.001');
                     $age = mb_convert_encoding($age, $encoding, 'UTF-8');
                 } else {
-                    $age = mb_convert_encoding($age.trans('sales_report.age.list.002'), $encoding, 'UTF-8');
+                    $age = mb_convert_encoding($age.trans('plugin.sales_report.age.list.002'), $encoding, 'UTF-8');
                 }
                 fputcsv($handle, [$age, $row['time'], $row['total'], $money], $separator);
             }
@@ -518,7 +518,7 @@ class SalesReportService
         $graph = [
             'labels' => array_keys($price),
             'datasets' => [
-                'label' => trans('sales_report.list.label.012'),
+                'label' => trans('plugin.sales_report.list.label.012'),
                 'data' => array_values($price),
                 'lineTension' => 0.1,
                 'backgroundColor' => 'rgba(75,192,192,0.4)',
@@ -670,10 +670,10 @@ class SalesReportService
         ksort($raw);
         foreach ($result as $key => $value) {
             if ($key == 999) {
-                $key = trans('sales_report.age.list.001');
+                $key = trans('plugin.sales_report.age.list.001');
                 $tmp[$key] = $value;
             } else {
-                $tmp[$key.trans('sales_report.generation')] = $value;
+                $tmp[$key.trans('plugin.sales_report.generation')] = $value;
             }
         }
         log_info('SalesReport Plugin : age report ', ['result count' => count($raw)]);
@@ -688,7 +688,7 @@ class SalesReportService
         $graph = [
             'labels' => array_keys($tmp),
             'datasets' => [
-                'label' => trans('sales_report.list.label.012'),
+                'label' => trans('plugin.sales_report.list.label.012'),
                 'backgroundColor' => $backgroundColor,
                 'borderColor' => $backgroundColor,
                 'borderWidth' => 0,
