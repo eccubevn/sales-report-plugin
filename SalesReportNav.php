@@ -25,26 +25,26 @@ class SalesReportNav implements EccubeNav
     public static function getNav()
     {
         return [
-            'customer' => [
+            'order' => [
                 'id' => 'sales_report_admin',
-                'name' => 'sales_report.nav.001',
+                'name' => 'sales_report.admin.nav.001',
                 'has_child' => 'true',
-                'icon' => 'fa-bar-chart',
+                'icon' => 'fa-chart-bar',
                 'child' => [
                     [
                         'id' => 'sales_report_admin_term',
                         'url' => 'sales_report_admin_term',
-                        'name' => 'sales_report.nav.002',
+                        'name' => 'sales_report.admin.nav.002',
                     ],
                     [
                         'id' => 'sales_report_admin_product',
                         'url' => 'sales_report_admin_product',
-                        'name' => 'sales_report.nav.003',
+                        'name' => 'sales_report.admin.nav.003',
                     ],
                     [
                         'id' => 'sales_report_admin_age',
                         'url' => 'sales_report_admin_age',
-                        'name' => 'sales_report.nav.004',
+                        'name' => 'sales_report.admin.nav.004',
                     ],
                 ],
             ],

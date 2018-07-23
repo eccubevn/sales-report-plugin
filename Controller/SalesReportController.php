@@ -116,19 +116,21 @@ class SalesReportController extends AbstractController
         }
 
         $response->setCallback(function () use ($data, $request, $type) {
+            $exportSeparator = $this->eccubeConfig['eccube_csv_export_separator'];
+            $exportEncoding = $this->eccubeConfig['eccube_csv_export_encoding'];
             // Export data by type
             switch ($type) {
                 case 'term':
-                    $this->salesReportService->exportTermCsv($data['raw'], $this->eccubeConfig['eccube_csv_export_separator'], $this->eccubeConfig['eccube_csv_export_encoding']);
+                    $this->salesReportService->exportTermCsv($data['raw'], $exportSeparator, $exportEncoding);
                     break;
                 case 'product':
-                    $this->salesReportService->exportProductCsv($data['raw'], $this->eccubeConfig['eccube_csv_export_separator'], $this->eccubeConfig['eccube_csv_export_encoding']);
+                    $this->salesReportService->exportProductCsv($data['raw'], $exportSeparator, $exportEncoding);
                     break;
                 case 'age':
-                    $this->salesReportService->exportAgeCsv($data['raw'], $this->eccubeConfig['eccube_csv_export_separator'], $this->eccubeConfig['eccube_csv_export_encoding']);
+                    $this->salesReportService->exportAgeCsv($data['raw'], $exportSeparator, $exportEncoding);
                     break;
                 default:
-                    $this->salesReportService->exportTermCsv($data['raw'], $this->eccubeConfig['eccube_csv_export_separator'], $this->eccubeConfig['eccube_csv_export_encoding']);
+                    $this->salesReportService->exportTermCsv($data['raw'], $exportSeparator, $exportEncoding);
             }
         });
 

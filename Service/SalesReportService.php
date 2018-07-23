@@ -56,38 +56,38 @@ class SalesReportService
      * @var array
      */
     private $productCsvHeader = [
-        'sales_report.productCsvHeader.001',
-        'sales_report.productCsvHeader.002',
-        'sales_report.productCsvHeader.003',
-        'sales_report.productCsvHeader.004',
-        'sales_report.productCsvHeader.005',
+        'sales_report.admin.productCsvHeader.001',
+        'sales_report.admin.productCsvHeader.002',
+        'sales_report.admin.productCsvHeader.003',
+        'sales_report.admin.productCsvHeader.004',
+        'sales_report.admin.productCsvHeader.005',
     ];
 
     /**
      * @var array
      */
     private $termCsvHeader = [
-        'sales_report.termCsvHeader.001',
-        'sales_report.termCsvHeader.002',
-        'sales_report.termCsvHeader.003',
-        'sales_report.termCsvHeader.004',
-        'sales_report.termCsvHeader.005',
-        'sales_report.termCsvHeader.006',
-        'sales_report.termCsvHeader.007',
-        'sales_report.termCsvHeader.008',
-        'sales_report.termCsvHeader.009',
-        'sales_report.termCsvHeader.010',
-        'sales_report.termCsvHeader.011',
+        'sales_report.admin.termCsvHeader.001',
+        'sales_report.admin.termCsvHeader.002',
+        'sales_report.admin.termCsvHeader.003',
+        'sales_report.admin.termCsvHeader.004',
+        'sales_report.admin.termCsvHeader.005',
+        'sales_report.admin.termCsvHeader.006',
+        'sales_report.admin.termCsvHeader.007',
+        'sales_report.admin.termCsvHeader.008',
+        'sales_report.admin.termCsvHeader.009',
+        'sales_report.admin.termCsvHeader.010',
+        'sales_report.admin.termCsvHeader.011',
     ];
 
     /**
      * @var array
      */
     private $ageCsvHeader = [
-        'sales_report.ageCsvHeader.001',
-        'sales_report.ageCsvHeader.002',
-        'sales_report.ageCsvHeader.003',
-        'sales_report.ageCsvHeader.004',
+        'sales_report.admin.ageCsvHeader.001',
+        'sales_report.admin.ageCsvHeader.002',
+        'sales_report.admin.ageCsvHeader.003',
+        'sales_report.admin.ageCsvHeader.004',
         ];
 
     /**
@@ -298,10 +298,10 @@ class SalesReportService
                 }
                 //convert from number to japanese.
                 if ($age == 999) {
-                    $age = trans('sales_report.age.list.001');
+                    $age = trans('sales_report.admin.age.list.001');
                     $age = mb_convert_encoding($age, $encoding, 'UTF-8');
                 } else {
-                    $age = mb_convert_encoding($age.trans('plugin.sales_report.age.list.002'), $encoding, 'UTF-8');
+                    $age = mb_convert_encoding($age.trans('sales_report.admin.age.list.002'), $encoding, 'UTF-8');
                 }
                 fputcsv($handle, [$age, $row['time'], $row['total'], $money], $separator);
             }
@@ -518,7 +518,7 @@ class SalesReportService
         $graph = [
             'labels' => array_keys($price),
             'datasets' => [
-                'label' => trans('plugin.sales_report.list.label.012'),
+                'label' => trans('sales_report.admin.list.label.012'),
                 'data' => array_values($price),
                 'lineTension' => 0.1,
                 'backgroundColor' => 'rgba(75,192,192,0.4)',
@@ -589,7 +589,7 @@ class SalesReportService
         }
         //sort by total money
         $count = 0;
-        $maxDisplayCount = $this->eccubeConfig['product_maximum_display'];
+        $maxDisplayCount = $this->eccubeConfig['sales_report_product_maximum_display'];
         $products = $this->sortBy('total', $products);
         log_info('SalesReport Plugin : product report ', ['result count' => count($products)]);
         foreach ($products as $key => $product) {
@@ -670,10 +670,10 @@ class SalesReportService
         ksort($raw);
         foreach ($result as $key => $value) {
             if ($key == 999) {
-                $key = trans('plugin.sales_report.age.list.001');
+                $key = trans('sales_report.admin.age.list.001');
                 $tmp[$key] = $value;
             } else {
-                $tmp[$key.trans('plugin.sales_report.generation')] = $value;
+                $tmp[$key.trans('sales_report.admin.generation')] = $value;
             }
         }
         log_info('SalesReport Plugin : age report ', ['result count' => count($raw)]);
@@ -688,7 +688,7 @@ class SalesReportService
         $graph = [
             'labels' => array_keys($tmp),
             'datasets' => [
-                'label' => trans('plugin.sales_report.list.label.012'),
+                'label' => trans('sales_report.admin.list.label.012'),
                 'backgroundColor' => $backgroundColor,
                 'borderColor' => $backgroundColor,
                 'borderWidth' => 0,

@@ -46,19 +46,19 @@ class SalesReportType extends AbstractType
                 'required' => false,
             ])
             ->add('monthly_year', ChoiceType::class, [
-                'label' => 'sales_report.label.monthly_year',
+                'label' => 'sales_report.admin.label.monthly_year',
                 'required' => true,
                 'choices' => array_combine($yearList, $yearList),
                 'data' => date('Y'),
             ])
             ->add('monthly_month', ChoiceType::class, [
-                'label' => 'sales_report.label.monthly_month',
+                'label' => 'sales_report.admin.label.monthly_month',
                 'required' => true,
                 'choices' => array_combine($monthList, $monthList),
                 'data' => date('n'),
             ])
             ->add('term_start', DateType::class, [
-                'label' => 'sales_report.label.term_start',
+                'label' => 'sales_report.admin.label.term_start',
                 'required' => true,
                 'input' => 'datetime',
                 'widget' => 'single_text',
@@ -66,7 +66,7 @@ class SalesReportType extends AbstractType
                 'data' => new \DateTime('first day of this month'),
             ])
             ->add('term_end', DateType::class, [
-                'label' => 'sales_report.label.term_end',
+                'label' => 'sales_report.admin.label.term_end',
                 'required' => true,
                 'input' => 'datetime',
                 'widget' => 'single_text',
@@ -74,15 +74,15 @@ class SalesReportType extends AbstractType
                 'data' => new \DateTime(),
             ])
             ->add('unit', ChoiceType::class, [
-                'label' => 'sales_report.label.unit',
+                'label' => 'sales_report.admin.label.unit',
                 'required' => true,
                 'expanded' => true,
                 'multiple' => false,
                 'choices' => array_flip([
-                    'byDay' => 'sales_report.label.byDay',
-                    'byMonth' => 'sales_report.label.byMonth',
-                    'byWeekDay' => 'sales_report.label.byWeekDay',
-                    'byHour' => 'sales_report.label.byHour',
+                    'byDay' => 'sales_report.admin.label.byDay',
+                    'byMonth' => 'sales_report.admin.label.byMonth',
+                    'byWeekDay' => 'sales_report.admin.label.byWeekDay',
+                    'byHour' => 'sales_report.admin.label.byHour',
                 ]),
                 'data' => 'byDay',
                 'constraints' => [
@@ -95,16 +95,16 @@ class SalesReportType extends AbstractType
                 if ($data['term_type'] === 'monthly') {
                     if (empty($data['monthly_year'])) {
                         $form['monthly_year']->addError(
-                            new FormError(trans('sales_report.type.monthly.error'))
+                            new FormError(trans('sales_report.admin.type.monthly.error'))
                         );
                     }
                     if (empty($data['monthly_month'])) {
                         $form['monthly_month']->addError(
-                            new FormError(trans('sales_report.type.monthly.error'))
+                            new FormError(trans('sales_report.admin.type.monthly.error'))
                         );
                     }
                 } elseif ($data['term_type'] === 'term' && (empty($data['term_start']) || empty($data['term_end']))) {
-                    $form['term_start']->addError(new FormError(trans('sales_report.type.term_start.error')));
+                    $form['term_start']->addError(new FormError(trans('sales_report.admin.type.term_start.error')));
                 }
             })
         ;
