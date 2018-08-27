@@ -200,7 +200,7 @@ class SalesReportController extends AbstractController
         log_info('SalesReport Plugin : render ', ['template' => $template]);
 
         return $this->render(
-            'SalesReport/Resource/template/admin/'.$template.'.twig',
+            '@SalesReport/admin/'.$template.'.twig',
             [
                 'form' => $form->createView(),
                 'graphData' => json_encode($data['graph']),

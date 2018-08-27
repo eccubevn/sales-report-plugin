@@ -14,7 +14,6 @@
 namespace Plugin\SalesReport\Tests\Web;
 
 use Eccube\Entity\Master\OrderStatus;
-use Eccube\Entity\Order;
 use Eccube\Repository\CustomerRepository;
 use Eccube\Repository\Master\OrderStatusRepository;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
@@ -36,7 +35,6 @@ class SaleReportCommon extends AbstractAdminWebTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->deleteAllRows(['dtb_order_item']);
         $this->customerRepository = $this->container->get(CustomerRepository::class);
         $this->orderStatusRepository = $this->container->get(OrderStatusRepository::class);
     }
