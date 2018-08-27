@@ -9,11 +9,13 @@ sales_report.admin.label.byDay: 日別
 sales_report.admin.label.byMonth: 月別
 sales_report.admin.label.byWeekDay: 曜日別
 sales_report.admin.label.byHour: 時間別
+
 sales_report.admin.title: 売上管理
+sales_report.admin.report_title: 年代別集計
 sales_report.admin.sub.title.age: 年齢別統計
 sales_report.admin.sub.title.product: 製品別統計
 sales_report.admin.sub.title.term: 用語レポート
-sales_report.admin.report_title: 年代別集計
+
 sales_report.admin.csv.download: CSVダウンロード
 sales_report.admin.age.field.001: 年代
 sales_report.admin.age.field.002: 購入件数(件)
@@ -53,11 +55,13 @@ sales_report.admin.list.label.009: 女性 (非会員)
 sales_report.admin.list.label.010: 購入合計(円)
 sales_report.admin.list.label.011: 購入平均(円)
 sales_report.admin.list.label.012: 購入合計
+
 sales_report.admin.productCsvHeader.001: 商品コード
 sales_report.admin.productCsvHeader.002: 商品名
 sales_report.admin.productCsvHeader.003: 購入件数（件）
 sales_report.admin.productCsvHeader.004: 数量（個）
 sales_report.admin.productCsvHeader.005: 金額（円）
+
 sales_report.admin.termCsvHeader.001: 期間
 sales_report.admin.termCsvHeader.002: 購入件数
 sales_report.admin.termCsvHeader.003: 男性
@@ -69,10 +73,12 @@ sales_report.admin.termCsvHeader.008: 女性(会員)
 sales_report.admin.termCsvHeader.009: 女性(非会員)
 sales_report.admin.termCsvHeader.010: 購入合計(円)
 sales_report.admin.termCsvHeader.011: 購入平均(円)
+
 sales_report.admin.ageCsvHeader.001: 年代
 sales_report.admin.ageCsvHeader.002: 購入件数(件)
 sales_report.admin.ageCsvHeader.003: 購入合計(円)
 sales_report.admin.ageCsvHeader.004: 購入平均(円)
+
 sales_report.admin.generation: 代
 sales_report.admin.nav.001: 売上集計
 sales_report.admin.nav.002: 期間別集計

@@ -26,25 +26,26 @@ class SalesReportNav implements EccubeNav
     {
         return [
             'order' => [
-                'id' => 'sales_report_admin',
-                'name' => 'sales_report.admin.nav.001',
-                'has_child' => 'true',
-                'icon' => 'fa-chart-bar',
-                'child' => [
-                    [
-                        'id' => 'sales_report_admin_term',
-                        'url' => 'sales_report_admin_term',
-                        'name' => 'sales_report.admin.nav.002',
-                    ],
-                    [
-                        'id' => 'sales_report_admin_product',
-                        'url' => 'sales_report_admin_product',
-                        'name' => 'sales_report.admin.nav.003',
-                    ],
-                    [
-                        'id' => 'sales_report_admin_age',
-                        'url' => 'sales_report_admin_age',
-                        'name' => 'sales_report.admin.nav.004',
+                'children' => [
+                    'SalesReport' => [
+                        'name' => 'sales_report.admin.nav.001',
+                        'children' => [
+                            'sales_report_admin_term' => [
+                                'id' => 'sales_report_admin_term',
+                                'url' => 'sales_report_admin_term',
+                                'name' => 'sales_report.admin.nav.002',
+                            ],
+                            'sales_report_admin_product' => [
+                                'id' => 'sales_report_admin_product',
+                                'url' => 'sales_report_admin_product',
+                                'name' => 'sales_report.admin.nav.003',
+                            ],
+                            'sales_report_admin_age' => [
+                                'id' => 'sales_report_admin_age',
+                                'url' => 'sales_report_admin_age',
+                                'name' => 'sales_report.admin.nav.004',
+                            ],
+                        ],
                     ],
                 ],
             ],

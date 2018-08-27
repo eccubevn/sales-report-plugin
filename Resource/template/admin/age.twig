@@ -12,7 +12,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
 
 {% set report_title = 'sales_report.admin.report_title'|trans %}
 {% set action = url('sales_report_admin_age') %}
-{% set menus = ['order', 'sales_report_admin', 'sales_report_admin_age'] %}
+{% set menus = ['order', 'SalesReport', 'sales_report_admin_age'] %}
 
 {% block chart %}
     <script>
@@ -86,10 +86,10 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                     <table class="table table-striped" id="age-table">
                         <thead>
                         <tr>
-                            <th class="border-top-0 pt-2 pb-2 text-left">{{ 'sales_report.admin.age.field.001'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-center">{{ 'sales_report.admin.age.field.002'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-right">{{ 'sales_report.admin.age.field.003'|trans }}</th>
-                            <th class="border-top-0 pt-2 pb-2 text-right">{{ 'sales_report.admin.age.field.004'|trans }}</th>
+                            <th class="border-top-0 py-2 text-left">{{ 'sales_report.admin.age.field.001'|trans }}</th>
+                            <th class="border-top-0 py-2 text-center">{{ 'sales_report.admin.age.field.002'|trans }}</th>
+                            <th class="border-top-0 py-2 text-right">{{ 'sales_report.admin.age.field.003'|trans }}</th>
+                            <th class="border-top-0 py-2 text-right">{{ 'sales_report.admin.age.field.004'|trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -121,7 +121,7 @@ Copyright (C) 2016 LOCKON CO.,LTD. All Rights Reserved.
                     </table>
                 {% else %}
                     <div class="col-12">
-                        <h3 class="box-title">{{ 'sales_report.admin.list.nodata'|trans }}</h3>
+                        <p class="mb-0">{{ 'sales_report.admin.list.nodata'|trans }}</p>
                     </div>
                 {% endif %}
             </div>

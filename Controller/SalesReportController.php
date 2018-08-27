@@ -16,10 +16,9 @@ namespace Plugin\SalesReport\Controller;
 use Eccube\Controller\AbstractController;
 use Plugin\SalesReport\Form\Type\SalesReportType;
 use Plugin\SalesReport\Service\SalesReportService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class SalesReportController.
@@ -55,7 +54,7 @@ class SalesReportController extends AbstractController
     /**
      * 商品別集計.
      *
-     * @param Request     $request
+     * @param Request $request
      * @Route("%eccube_admin_route%/plugin/sales_report/product", name="sales_report_admin_product")
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -68,7 +67,7 @@ class SalesReportController extends AbstractController
     /**
      * 年代別集計.
      *
-     * @param Request     $request
+     * @param Request $request
      * @Route("%eccube_admin_route%/plugin/sales_report/age", name="sales_report_admin_age")
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -81,10 +80,9 @@ class SalesReportController extends AbstractController
     /**
      * 商品CSVの出力.
      *
-     * @param Request     $request
-     * @param string      $type
-     * @Route("%eccube_admin_route%/plugin/sales_report/export/{type}", name="sales_report_admin_export")
-     * @Method("POST")
+     * @param Request $request
+     * @param string $type
+     * @Route("%eccube_admin_route%/plugin/sales_report/export/{type}", name="sales_report_admin_export", methods={"POST"})
      *
      * @return StreamedResponse
      */
@@ -161,8 +159,8 @@ class SalesReportController extends AbstractController
     /**
      * direct by report type(default term).
      *
-     * @param Request     $request
-     * @param null        $reportType
+     * @param Request $request
+     * @param null $reportType
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */

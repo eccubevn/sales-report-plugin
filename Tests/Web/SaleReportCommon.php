@@ -90,23 +90,4 @@ class SaleReportCommon extends AbstractAdminWebTestCase
 
         return $arrOrder;
     }
-
-    /**
-     * change order detail.
-     *
-     * @param array $Orders
-     */
-    public function changeOrderDetail($Orders)
-    {
-        foreach ($Orders as $Order) {
-            /** @var Order $Order */
-            foreach ($Order->getOrderItems() as $OrderDetail) {
-                /* @var \Eccube\Entity\OrderItem $OrderDetail */
-                $OrderDetail->setPrice(500);
-                $OrderDetail->setQuantity(1);
-                $this->entityManager->persist($OrderDetail);
-                $this->entityManager->flush($OrderDetail);
-            }
-        }
-    }
 }
