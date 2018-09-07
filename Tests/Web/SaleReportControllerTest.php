@@ -194,6 +194,47 @@ class SaleReportControllerTest extends SaleReportCommon
     }
 
     /**
+     * test change order detail.
+     *
+     * @param string $type
+     * @param string $termType
+     * @dataProvider dataProductReportProvider
+     */
+    public function testChangeOrderDetail($type, $termType)
+    {
+        $i = 0;
+        $orderMoney = 0;
+        $current = new \DateTime();
+        $arrOrder = $this->createOrderByCustomer(5);
+        $TaxRule = $this->taxRuleRepository->getByRule();
+        $this->changeOrderDetail($arrOrder, $TaxRule);
+        $arrSearch = [
+            'term_type' => $termType,
+            '_token' => 'dummy',
+        ];
+
+        if ($termType == 'monthly') {
+            $arrSearch['monthly_year'] = $current->format('Y');
+            $arrSearch['monthly_month'] = $current->format('n');
+        } else {
+            $arrSearch['term_start'] = $current->modify('-15 days')->format('Y-m-d');
+            $arrSearch['term_end'] = $current->modify('+15 days')->format('Y-m-d');
+        }
+        $crawler = $this->client->request('POST', $this->generateUrl('sales_report_admin'.$type), ['sales_report' => $arrSearch]);
+        $moneyElement = $crawler->filter('tr .d-none');
+        //get only total money. don't get product price
+        foreach ($moneyElement as $domElement) {
+            $orderMoney += $domElement->nodeValue;
+            ++$i;
+        }
+
+        $tax = $TaxRule->getTaxRate() / 100;
+        $this->expected = 500 * 5 * (1 + $tax);
+        $this->actual = $orderMoney;
+        $this->verify();
+    }
+
+    /**
      * data report provider.
      *
      * @return array

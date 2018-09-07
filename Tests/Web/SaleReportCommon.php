@@ -14,6 +14,7 @@
 namespace Plugin\SalesReport\Tests\Web;
 
 use Eccube\Entity\Master\OrderStatus;
+use Eccube\Entity\Order;
 use Eccube\Repository\CustomerRepository;
 use Eccube\Repository\Master\OrderStatusRepository;
 use Eccube\Tests\Web\Admin\AbstractAdminWebTestCase;
@@ -87,5 +88,39 @@ class SaleReportCommon extends AbstractAdminWebTestCase
         }
 
         return $arrOrder;
+    }
+
+    /**
+     * @param $Orders
+     * @param $TaxRule
+     */
+    public function changeOrderDetail($Orders, $TaxRule)
+    {
+        /** @var Order $Order */
+        foreach ($Orders as $Order) {
+            $totalTax = 0;
+            $total = 0;
+            /** @var Order $Order */
+            foreach ($Order->getOrderItems() as $orderItem) {
+                if ($orderItem->isProduct()) {
+                    $TaxRate = $TaxRule->getTaxRate() / 100;
+                    $tax = 500 * $TaxRate;
+                    /* @var \Eccube\Entity\OrderItem $orderItem */
+                    $orderItem->setPrice(500);
+                    $orderItem->setQuantity(1);
+                    $orderItem->setTax($tax);
+                    $this->entityManager->persist($orderItem);
+                    $this->entityManager->flush($orderItem);
+                    $totalTax += $tax;
+                    $total += 500 + $tax;
+                }
+            }
+
+            $Order->setSubtotal($total);
+            $Order->setTotal($total);
+            $Order->setTax($totalTax);
+            $this->entityManager->persist($Order);
+            $this->entityManager->flush($Order);
+        }
     }
 }
